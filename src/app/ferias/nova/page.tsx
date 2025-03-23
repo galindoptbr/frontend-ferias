@@ -2,18 +2,22 @@
 
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import Layout from '@/components/Layout';
+import FeriasForm from '@/components/FeriasForm';
 import { authService } from '@/services/authService';
 
-export default function HomePage() {
+export default function NovaSolicitacaoPage() {
   const router = useRouter();
 
   useEffect(() => {
-    if (authService.isAuthenticated()) {
-      router.push('/dashboard');
-    } else {
+    if (!authService.isAuthenticated()) {
       router.push('/login');
     }
   }, [router]);
 
-  return null;
-}
+  return (
+    <Layout>
+      <FeriasForm />
+    </Layout>
+  );
+} 
