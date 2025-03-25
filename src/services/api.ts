@@ -7,11 +7,7 @@ const api = axios.create({
   baseURL: API_URL,
   timeout: 30000,
   headers: {
-    'Content-Type': 'application/json',
-    'Accept': 'application/json',
-    'Access-Control-Allow-Origin': '*',
-    'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
-    'Access-Control-Allow-Headers': 'Content-Type, Authorization'
+    'Content-Type': 'application/json'
   }
 });
 
@@ -23,9 +19,6 @@ api.interceptors.request.use((config) => {
     config.headers.Authorization = `Bearer ${token}`;
   }
   return config;
-}, (error) => {
-  console.error('[API] Erro na configuração da requisição:', error);
-  return Promise.reject(error);
 });
 
 // Interceptor para tratamento de erros
@@ -39,36 +32,15 @@ api.interceptors.response.use(
       url: error.config?.url,
       method: error.config?.method,
       status: error.response?.status,
-      message: error.message,
-      data: error.response?.data
+      message: error.message
     });
 
-    if (error.code === 'ECONNABORTED' || !error.response) {
+    if (!error.response) {
       throw new Error('Não foi possível conectar ao servidor. Verifique sua conexão.');
     }
 
-    if (error.response?.status === 500) {
-      const errorMessage = error.response?.data?.message || 'Erro interno do servidor';
-      if (errorMessage.includes('MongoDB') || errorMessage.includes('database')) {
-        throw new Error('Erro de conexão com o banco de dados. Tente novamente mais tarde.');
-      }
-      throw new Error(errorMessage);
-    }
-    
-    if (error.response?.status === 401) {
-      localStorage.removeItem('token');
-      window.location.href = '/login';
-    }
-
-    if (error.response?.status === 400) {
-      throw new Error(error.response?.data?.message || 'Dados inválidos. Verifique as informações.');
-    }
-
-    if (error.response?.status === 404) {
-      throw new Error('Recurso não encontrado.');
-    }
-    
-    throw error;
+    const errorMessage = error.response?.data?.message || 'Erro no servidor';
+    throw new Error(errorMessage);
   }
 );
 
