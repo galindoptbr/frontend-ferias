@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000';
+const API_URL = 'https://vacation-node-dp2yb3hh-galindoptbrs-projects.vercel.app';
 console.log('[API] Inicializando com URL:', API_URL);
 
 const api = axios.create({
@@ -9,6 +9,9 @@ const api = axios.create({
   headers: {
     'Content-Type': 'application/json',
     'Accept': 'application/json',
+    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
+    'Access-Control-Allow-Headers': 'Content-Type, Authorization'
   }
 });
 
@@ -20,6 +23,9 @@ api.interceptors.request.use((config) => {
     config.headers.Authorization = `Bearer ${token}`;
   }
   return config;
+}, (error) => {
+  console.error('[API] Erro na configuração da requisição:', error);
+  return Promise.reject(error);
 });
 
 // Interceptor para tratamento de erros
@@ -34,14 +40,13 @@ api.interceptors.response.use(
       method: error.config?.method,
       status: error.response?.status,
       message: error.message,
-      data: error.response?.data // Adicionando dados da resposta para ver mensagens do backend
+      data: error.response?.data
     });
 
     if (error.code === 'ECONNABORTED' || !error.response) {
       throw new Error('Não foi possível conectar ao servidor. Verifique sua conexão.');
     }
 
-    // Erros específicos do MongoDB/Backend
     if (error.response?.status === 500) {
       const errorMessage = error.response?.data?.message || 'Erro interno do servidor';
       if (errorMessage.includes('MongoDB') || errorMessage.includes('database')) {
@@ -55,7 +60,6 @@ api.interceptors.response.use(
       window.location.href = '/login';
     }
 
-    // Outros erros HTTP
     if (error.response?.status === 400) {
       throw new Error(error.response?.data?.message || 'Dados inválidos. Verifique as informações.');
     }
