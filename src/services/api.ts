@@ -6,11 +6,11 @@ console.log('[API Init] URL:', process.env.NEXT_PUBLIC_API_URL || 'http://localh
 
 const api = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000',
+  timeout: 30000, // aumentando para 30 segundos
   headers: {
     'Content-Type': 'application/json',
     'Accept': 'application/json',
   },
-  timeout: 10000, // 10 segundos
   withCredentials: false, // Desabilitando credentials por enquanto
 });
 
@@ -54,7 +54,7 @@ api.interceptors.request.use(
   }
 );
 
-// Interceptor para tratar erros de resposta
+// Interceptor para tratamento de erros
 api.interceptors.response.use(
   (response) => {
     // Log detalhado da resposta para debug
@@ -72,7 +72,17 @@ api.interceptors.response.use(
     });
     return response;
   },
-  (error) => {
+  async (error) => {
+    if (error.code === 'ECONNABORTED' || !error.response) {
+      console.error('Erro de conexão:', error);
+      throw new Error('Não foi possível conectar ao servidor. Verifique sua conexão.');
+    }
+    
+    if (error.response?.status === 401) {
+      authService.logout();
+      window.location.href = '/login';
+    }
+    
     if (axios.isAxiosError(error)) {
       // Log detalhado do erro
       console.error('[API Error]', {
@@ -88,23 +98,6 @@ api.interceptors.response.use(
           withCredentials: error.config?.withCredentials
         }
       });
-
-      // Erro de rede (sem conexão com o servidor)
-      if (!error.response) {
-        console.error('[Network Error] Não foi possível conectar ao servidor');
-        return Promise.reject(new Error('Não foi possível conectar ao servidor. Verifique se a API está rodando e tente novamente.'));
-      }
-
-      // Erro de autenticação
-      if (error.response.status === 401) {
-        // Não redireciona se for a rota de login
-        if (!error.config?.url?.includes('/api/auth/login')) {
-          authService.logout();
-          window.location.href = '/login';
-          return Promise.reject(new Error('Sessão expirada. Por favor, faça login novamente.'));
-        }
-        return Promise.reject(error);
-      }
 
       // Erro de permissão
       if (error.response.status === 403) {
