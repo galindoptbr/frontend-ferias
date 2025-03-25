@@ -33,16 +33,35 @@ api.interceptors.response.use(
       url: error.config?.url,
       method: error.config?.method,
       status: error.response?.status,
-      message: error.message
+      message: error.message,
+      data: error.response?.data // Adicionando dados da resposta para ver mensagens do backend
     });
 
     if (error.code === 'ECONNABORTED' || !error.response) {
       throw new Error('Não foi possível conectar ao servidor. Verifique sua conexão.');
     }
+
+    // Erros específicos do MongoDB/Backend
+    if (error.response?.status === 500) {
+      const errorMessage = error.response?.data?.message || 'Erro interno do servidor';
+      if (errorMessage.includes('MongoDB') || errorMessage.includes('database')) {
+        throw new Error('Erro de conexão com o banco de dados. Tente novamente mais tarde.');
+      }
+      throw new Error(errorMessage);
+    }
     
     if (error.response?.status === 401) {
       localStorage.removeItem('token');
       window.location.href = '/login';
+    }
+
+    // Outros erros HTTP
+    if (error.response?.status === 400) {
+      throw new Error(error.response?.data?.message || 'Dados inválidos. Verifique as informações.');
+    }
+
+    if (error.response?.status === 404) {
+      throw new Error('Recurso não encontrado.');
     }
     
     throw error;
