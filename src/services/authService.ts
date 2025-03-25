@@ -10,6 +10,7 @@ interface RegisterData {
   email: string;
   senha: string;
   cargo: string;
+  isAdmin: boolean;
 }
 
 interface User {

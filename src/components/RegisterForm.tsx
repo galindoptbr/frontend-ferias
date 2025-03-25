@@ -4,23 +4,27 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { authService } from '@/services/authService';
+import { useAuth } from '@/contexts/AuthContext';
 
 interface RegisterForm {
   nome: string;
   email: string;
   senha: string;
   cargo: string;
+  isAdmin: boolean;
 }
 
 export default function RegisterForm() {
   const router = useRouter();
   const [error, setError] = useState('');
+  const { updateAuthState } = useAuth();
   const { register, handleSubmit, formState: { errors } } = useForm<RegisterForm>();
 
   const onSubmit = async (data: RegisterForm) => {
     try {
       await authService.register(data);
-      router.push("/login");
+      updateAuthState();
+      router.push("/dashboard");
     } catch {
       setError("Erro ao criar conta. Tente novamente.");
     }
@@ -117,6 +121,17 @@ export default function RegisterForm() {
                 {errors.senha && (
                   <p className="text-red-500 text-sm mt-1">{errors.senha.message}</p>
                 )}
+              </div>
+
+              <div className="flex items-center">
+                <input
+                  type="checkbox"
+                  {...register('isAdmin')}
+                  className="h-4 w-4 text-[#4012A1] focus:ring-[#4012A1] border-gray-300 rounded cursor-pointer"
+                />
+                <label className="ml-2 block text-sm text-gray-700">
+                  Cadastrar como Administrador
+                </label>
               </div>
 
               <button
