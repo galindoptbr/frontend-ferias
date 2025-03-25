@@ -11,7 +11,7 @@ const api = axios.create({
     'Content-Type': 'application/json',
     'Accept': 'application/json',
   },
-  withCredentials: false, // Desabilitando credentials por enquanto
+  withCredentials: true // Habilitando credentials para CORS
 });
 
 // Log da configuração inicial da API
@@ -21,7 +21,7 @@ console.log('[API Config]', {
     'Content-Type': 'application/json',
     'Accept': 'application/json',
   },
-  withCredentials: false
+  withCredentials: true
 });
 
 // Interceptor para adicionar o token em todas as requisições
