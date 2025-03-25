@@ -190,7 +190,7 @@ frontend-ferias/
 # Install dependencies
 npm install
 
-# Run in development
+# Run in development (will run on port 3001)
 npm run dev
 
 # Build for production
@@ -203,8 +203,13 @@ npm start
 ## Environment Variables
 
 ```env
+# Backend API URL (running on port 3000)
 NEXT_PUBLIC_API_URL=http://localhost:3000
 ```
+
+## Ports Configuration
+- Backend API: runs on port 3000
+- Frontend: runs on port 3001
 
 ## Best Practices
 
