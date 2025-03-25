@@ -48,8 +48,8 @@ export default function Dashboard() {
     try {
       const data = await feriasService.list();
       setFerias(data);
-    } catch (error) {
-      console.error("Erro ao carregar férias:", error);
+    } catch {
+      console.error("Erro ao carregar férias");
     } finally {
       setLoading(false);
     }

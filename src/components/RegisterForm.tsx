@@ -22,10 +22,9 @@ export default function RegisterForm() {
   const onSubmit = async (data: RegisterForm) => {
     try {
       await authService.register(data);
-      updateAuthState();
-      router.push('/dashboard');
-    } catch (err) {
-      setError('Erro ao criar conta. Tente novamente.');
+      router.push("/login");
+    } catch {
+      setError("Erro ao criar conta. Tente novamente.");
     }
   };
 

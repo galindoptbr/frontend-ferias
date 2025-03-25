@@ -30,8 +30,8 @@ export default function FeriasForm() {
     try {
       await feriasService.create(data);
       router.push('/dashboard');
-    } catch (err) {
-      setError('Erro ao criar solicitação de férias. Tente novamente.');
+    } catch {
+      setError('Erro ao criar solicitação de férias');
     }
   };
 
