@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { authService } from './authService';
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000';
 console.log('[API] Inicializando com URL:', API_URL);
