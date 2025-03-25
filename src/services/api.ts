@@ -1,54 +1,57 @@
 import axios from 'axios';
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL;
-console.log('[API] Inicializando com URL:', API_URL);
-
 const api = axios.create({
-  baseURL: API_URL,
+  baseURL: process.env.NEXT_PUBLIC_API_URL,
   timeout: 30000,
   headers: {
     'Content-Type': 'application/json'
   }
 });
 
-// Interceptor para adicionar o token em todas as requisições
+// Log da URL base para debug
+console.log('[API] URL Base:', process.env.NEXT_PUBLIC_API_URL);
+
+// Interceptor para adicionar o token e origin em todas as requisições
 api.interceptors.request.use((config) => {
-  console.log('[API] Fazendo requisição para:', config.url);
+  // Adiciona o token se existir
   const token = localStorage.getItem('token');
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
   }
-  // Adiciona o origin no header para debug
-  config.headers['Origin'] = window.location.origin;
+
+  // Adiciona o origin correto
+  if (typeof window !== 'undefined') {
+    config.headers.Origin = window.location.origin;
+  }
+
+  // Log da requisição para debug
+  console.log('[API] Requisição:', {
+    url: config.url,
+    method: config.method,
+    headers: config.headers
+  });
+
   return config;
-}, (error) => {
-  console.error('[API] Erro na configuração da requisição:', error);
-  return Promise.reject(error);
 });
 
 // Interceptor para tratamento de erros
 api.interceptors.response.use(
-  (response) => {
-    console.log('[API] Resposta recebida de:', response.config.url);
-    return response;
-  },
-  async (error) => {
+  response => response,
+  error => {
     // Log detalhado do erro
-    console.error('[API] Erro detalhado:', {
+    console.error('[API] Erro:', {
       url: error.config?.url,
       method: error.config?.method,
       status: error.response?.status,
-      message: error.message,
-      headers: error.config?.headers,
-      data: error.response?.data
+      data: error.response?.data,
+      headers: error.config?.headers
     });
 
     if (!error.response) {
       throw new Error('Não foi possível conectar ao servidor. Verifique sua conexão.');
     }
 
-    const errorMessage = error.response?.data?.message || 'Erro no servidor';
-    throw new Error(errorMessage);
+    throw error;
   }
 );
 

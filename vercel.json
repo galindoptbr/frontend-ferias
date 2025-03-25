@@ -1,0 +1,8 @@
+{
+  "rewrites": [
+    {
+      "source": "/api/:path*",
+      "destination": "https://vacation-node-api.vercel.app/api/:path*"
+    }
+  ]
+} 
