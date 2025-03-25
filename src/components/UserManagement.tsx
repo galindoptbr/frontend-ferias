@@ -43,7 +43,7 @@ export default function UserManagement() {
   const loadUsers = async () => {
     try {
       const response = await api.get<User[]>("/api/auth/users");
-      setUsers(response.data.filter((user) => !user.isAdmin)); // Mostra apenas usuários não-admin
+      setUsers(response.data);
     } catch (err) {
       if (axios.isAxiosError(err)) {
         setError("Erro ao carregar usuários");
