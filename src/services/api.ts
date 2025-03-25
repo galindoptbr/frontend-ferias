@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = 'https://vacation-node-dp2yb3hh-galindoptbrs-projects.vercel.app';
+const API_URL = process.env.NEXT_PUBLIC_API_URL;
 console.log('[API] Inicializando com URL:', API_URL);
 
 const api = axios.create({
@@ -18,7 +18,12 @@ api.interceptors.request.use((config) => {
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
   }
+  // Adiciona o origin no header para debug
+  config.headers['Origin'] = window.location.origin;
   return config;
+}, (error) => {
+  console.error('[API] Erro na configuração da requisição:', error);
+  return Promise.reject(error);
 });
 
 // Interceptor para tratamento de erros
@@ -28,11 +33,14 @@ api.interceptors.response.use(
     return response;
   },
   async (error) => {
-    console.error('[API] Erro na requisição:', {
+    // Log detalhado do erro
+    console.error('[API] Erro detalhado:', {
       url: error.config?.url,
       method: error.config?.method,
       status: error.response?.status,
-      message: error.message
+      message: error.message,
+      headers: error.config?.headers,
+      data: error.response?.data
     });
 
     if (!error.response) {
