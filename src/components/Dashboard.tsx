@@ -39,8 +39,8 @@ export default function Dashboard() {
     try {
       const response = await api.get<User[]>("/api/auth/users");
       setUsers(response.data);
-    } catch (error) {
-      console.error("Erro ao carregar usuários:", error);
+    } catch {
+      console.error("Erro ao carregar usuários");
     }
   };
 

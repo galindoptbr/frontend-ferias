@@ -4,7 +4,6 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { authService } from '@/services/authService';
-import { useAuth } from '@/contexts/AuthContext';
 
 interface RegisterForm {
   nome: string;
@@ -15,7 +14,6 @@ interface RegisterForm {
 
 export default function RegisterForm() {
   const router = useRouter();
-  const { updateAuthState } = useAuth();
   const [error, setError] = useState('');
   const { register, handleSubmit, formState: { errors } } = useForm<RegisterForm>();
 
