@@ -66,7 +66,7 @@ export default function Dashboard() {
       setDeleteLoading(id);
       await feriasService.delete(id);
       setFerias(ferias.filter((f) => f._id !== id));
-    } catch (error) {
+    } catch {
       alert("Erro ao excluir solicitação de férias. Tente novamente.");
     } finally {
       setDeleteLoading(null);
