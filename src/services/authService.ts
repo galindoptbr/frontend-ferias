@@ -44,6 +44,10 @@ class AuthService {
     return response.data;
   }
 
+  deleteUser(userId: string): Promise<void> {
+    return api.delete(`/api/auth/delete/${userId}`);
+  }
+
   isAuthenticated(): boolean {
     if (typeof window === 'undefined') return false;
     return !!this.getToken();

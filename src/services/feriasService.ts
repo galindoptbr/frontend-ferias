@@ -45,5 +45,18 @@ export const feriasService = {
 
   async delete(id: string): Promise<void> {
     await api.delete(`/api/ferias/${id}`);
+  },
+
+  async deleteByUserId(userId: string): Promise<void> {
+    const response = await api.get<Ferias[]>(`/api/ferias/user/${userId}`);
+    const ferias = response.data;
+    
+    for (const feriasItem of ferias) {
+      await this.delete(feriasItem._id);
+    }
+  },
+
+  async deleteAsAdmin(id: string): Promise<void> {
+    await api.delete(`/api/ferias/admin/${id}`);
   }
 };

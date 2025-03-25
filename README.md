@@ -1,9 +1,9 @@
-# Sistema de Gerenciamento de Férias
+# Vacation Management System
 
-## Visão Geral
-Sistema web desenvolvido em Next.js para gerenciamento de solicitações de férias de funcionários. O sistema possui diferentes níveis de acesso (administrador e funcionário) e permite o controle completo do fluxo de solicitações de férias.
+## Overview
+A web system developed in Next.js for managing employee vacation requests. The system has different access levels (administrator and employee) and allows complete control of the vacation request flow.
 
-## Tecnologias Utilizadas
+## Technologies Used
 
 - **Frontend**:
   - Next.js 15.2.3
@@ -13,13 +13,13 @@ Sistema web desenvolvido em Next.js para gerenciamento de solicitações de fér
   - Axios
   - React Hook Form
 
-- **Principais Funcionalidades**:
-  - Autenticação de usuários
-  - Gerenciamento de solicitações de férias
-  - Painel administrativo
-  - Dashboard do funcionário
+- **Main Features**:
+  - User authentication
+  - Vacation request management
+  - Administrative panel
+  - Employee dashboard
 
-## Estrutura do Projeto
+## Project Structure
 
 ```
 frontend-ferias/
@@ -40,6 +40,7 @@ frontend-ferias/
 │   │   ├── AdminDashboard.tsx
 │   │   ├── Dashboard.tsx
 │   │   ├── FeriasForm.tsx
+│   │   ├── Footer.tsx
 │   │   ├── Layout.tsx
 │   │   ├── LoginForm.tsx
 │   │   ├── Navbar.tsx
@@ -53,155 +54,164 @@ frontend-ferias/
 │       └── feriasService.ts
 ```
 
-## Fluxos do Sistema
+## System Flows
 
-### 1. Autenticação
+### 1. Authentication
 
 #### Login
-- Usuário acessa a página de login
-- Insere credenciais (email e senha)
-- Sistema valida as credenciais
-- Redireciona para:
-  - `/admin` se for administrador
-  - `/dashboard` se for funcionário comum
+- User accesses the login page
+- Enters credentials (email and password)
+- System validates the credentials
+- Redirects to:
+  - `/admin` if administrator
+  - `/dashboard` if regular employee
 
-#### Registro
-- Usuário acessa página de registro
-- Preenche dados pessoais (nome, email, cargo, senha)
-- Sistema valida e cria nova conta
-- Redireciona para dashboard
+#### Registration
+- User accesses the registration page
+- Fills in personal data (name, email, position, password)
+- System validates and creates a new account
+- Redirects to dashboard
 
-### 2. Fluxo do Funcionário
+### 2. Employee Flow
 
 #### Dashboard
-- Visualiza suas solicitações de férias
-- Status possíveis: pendente, aprovado, rejeitado
-- Pode criar novas solicitações
-- Pode excluir solicitações pendentes
+- Views their vacation requests
+- Possible statuses: pending, approved, rejected
+- Can create new requests
+- Can delete pending requests
 
-#### Nova Solicitação
-- Acessa formulário de nova solicitação
-- Preenche:
-  - Data de início
-  - Data de fim
-  - Motivo
-- Sistema registra a solicitação com status "pendente"
+#### New Request
+- Accesses the new request form
+- Fills in:
+  - Start date
+  - End date
+  - Reason
+- System registers the request with status "pending"
 
-### 3. Fluxo do Administrador
+### 3. Administrator Flow
 
-#### Painel Administrativo
-- Lista todas as solicitações de férias
-- Pode aprovar ou rejeitar solicitações
-- Visualiza informações completas dos funcionários
-- Gerencia usuários do sistema
+#### Administrative Panel
+- Lists all vacation requests
+- Can approve or reject requests
+- Views complete employee information
+- Manages system users
 
-## Serviços
+## Services
 
 ### authService
-- `loginWithCredentials`: Autenticação de usuários
-- `register`: Registro de novos usuários
-- `isAuthenticated`: Verifica estado da autenticação
-- `isAdmin`: Verifica se usuário é administrador
-- `logout`: Finaliza sessão do usuário
+- `loginWithCredentials`: User authentication
+- `register`: Register new users
+- `isAuthenticated`: Checks authentication status
+- `isAdmin`: Checks if user is an administrator
+- `logout`: Ends user session
 
 ### feriasService
-- `create`: Cria nova solicitação
-- `list`: Lista solicitações do usuário
-- `listAll`: Lista todas as solicitações (admin)
-- `updateStatus`: Atualiza status da solicitação
-- `delete`: Remove solicitação pendente
+- `create`: Creates a new request
+- `list`: Lists user requests
+- `listAll`: Lists all requests (admin)
+- `updateStatus`: Updates request status
+- `delete`: Removes pending request
 
-## Contextos
+## Contexts
 
 ### AuthContext
-- Gerencia estado global de autenticação
-- Mantém informações do usuário logado
-- Fornece métodos de autenticação para componentes
+- Manages global authentication state
+- Maintains logged-in user information
+- Provides authentication methods for components
 
-## Componentes Principais
+## Main Components
 
 ### LoginForm
-- Formulário de autenticação
-- Validação de campos
-- Tratamento de erros
-- Redirecionamento baseado no tipo de usuário
+- Authentication form
+- Field validation
+- Error handling
+- Redirection based on user type
 
 ### RegisterForm
-- Formulário de registro
-- Validações de campos
-- Feedback visual de erros
-- Criação de nova conta
+- Registration form
+- Field validations
+- Visual feedback for errors
+- Account creation
 
 ### FeriasForm
-- Formulário de solicitação de férias
-- Validação de datas
-- Campos obrigatórios
-- Feedback de sucesso/erro
+- Vacation request form
+- Date validation
+- Required fields
+- Success/error feedback
 
 ### Dashboard
-- Exibição de solicitações do usuário
-- Filtros e ordenação
-- Ações disponíveis por status
-- Interface intuitiva
+- Displays user requests
+- Filters and sorting
+- Actions available by status
+- Intuitive interface
 
 ### AdminDashboard
-- Gerenciamento completo de solicitações
-- Aprovação/Rejeição de pedidos
-- Visualização detalhada
-- Controles administrativos
+- Complete request management
+- Approval/Rejection of requests
+- Detailed view
+- Administrative controls
 
-## Segurança
+### Navbar
+- Navigation bar with user profile
+- Responsive design
+- Quick access to main sections
 
-- Autenticação via JWT
-- Proteção de rotas
-- Validação de permissões
-- Tratamento de erros
-- Sanitização de dados
+### Footer
+- Contains quick links and contact information
+- Consistent design with the rest of the application
 
-## Considerações de UI/UX
+## Security
 
-- Design responsivo
-- Feedback visual claro
-- Mensagens de erro informativas
-- Transições suaves
-- Consistência visual
-- Acessibilidade básica
+- Authentication via JWT
+- Route protection
+- Permission validation
+- Error handling
+- Data sanitization
 
-## Requisitos do Sistema
+## UI/UX Considerations
+
+- Responsive design
+- Clear visual feedback
+- Informative error messages
+- Smooth transitions
+- Visual consistency
+- Basic accessibility
+
+## System Requirements
 
 - Node.js 14+
-- NPM ou Yarn
-- Conexão com internet
-- Navegador moderno
+- NPM or Yarn
+- Internet connection
+- Modern browser
 
-## Instalação e Execução
+## Installation and Execution
 
 ```bash
-# Instalar dependências
+# Install dependencies
 npm install
 
-# Executar em desenvolvimento
+# Run in development
 npm run dev
 
-# Construir para produção
+# Build for production
 npm run build
 
-# Executar em produção
+# Run in production
 npm start
 ```
 
-## Variáveis de Ambiente
+## Environment Variables
 
 ```env
 NEXT_PUBLIC_API_URL=http://localhost:3000
 ```
 
-## Boas Práticas
+## Best Practices
 
-- Código tipado com TypeScript
-- Componentes funcionais
-- Hooks do React
-- Gerenciamento de estado contextual
-- Validações de formulários
-- Tratamento de erros
-- Feedback ao usuário
+- Typed code with TypeScript
+- Functional components
+- React hooks
+- Contextual state management
+- Form validations
+- Error handling
+- User feedback

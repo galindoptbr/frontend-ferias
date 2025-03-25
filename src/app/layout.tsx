@@ -1,27 +1,32 @@
-import { ReactNode } from 'react';
-import './globals.css';
-import Navbar from '@/components/Navbar';
-import { AuthProvider } from '@/contexts/AuthContext';
+import type { Metadata } from "next";
+import { Inter } from "next/font/google";
+import "./globals.css";
+import { AuthProvider } from "@/contexts/AuthContext";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 
-export const metadata = {
-  title: 'Sistema de Férias',
-  description: 'Sistema para gerenciamento de férias',
+const inter = Inter({ subsets: ["latin"] });
+
+export const metadata: Metadata = {
+  title: "Vertsa Ferias",
+  description: "Sistema de gerenciamento de férias",
 };
 
-interface LayoutProps {
-  children: ReactNode;
-}
-
-export default function RootLayout({ children }: LayoutProps) {
+export default function RootLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
   return (
     <html lang="pt-BR">
-      <body>
+      <body className={inter.className}>
         <AuthProvider>
-          <div className="min-h-screen bg-gray-100">
+          <div className="min-h-screen flex flex-col">
             <Navbar />
-            <main className="container mx-auto px-4 py-8">
+            <main className="flex-grow">
               {children}
             </main>
+            <Footer />
           </div>
         </AuthProvider>
       </body>
