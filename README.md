@@ -1,6 +1,6 @@
 # Sistema de Gerenciamento de Férias
 
-Sistema web para gerenciamento de solicitações de férias, desenvolvido com Next.js.
+Sistema web para gerenciamento de solicitações de férias desenvolvido com Next.js.
 
 ## 🚀 Como Executar
 
@@ -10,45 +10,43 @@ git clone https://github.com/galindoptbr/frontend-ferias.git
 cd frontend-ferias
 ```
 
-2. Configure o ambiente:
-```bash
-# Copie o arquivo de exemplo
-cp .env.example .env.local
-
-# Edite o .env.local com a URL da sua API
-# Em desenvolvimento: http://localhost:3000
-# Em produção: https://vacation-node-api.vercel.app
-```
-
-3. Instale as dependências e execute:
+2. Instale as dependências:
 ```bash
 npm install
+# ou
+yarn install
+```
+
+3. Execute o projeto:
+```bash
 npm run dev
+# ou
+yarn dev
 ```
 
 O projeto estará disponível em `http://localhost:3001`
 
-## 📝 Requisitos
+## 📋 Requisitos
 
-- Node.js 14+
+- Node.js 18.17.0 ou superior
 - NPM ou Yarn
-- Backend da API rodando (porta 3000)
+- Backend API rodando na porta 3000
 
-## 🔑 Funcionalidades
+## ✨ Funcionalidades
 
 - Autenticação de usuários
-- Solicitação de férias
-- Aprovação/rejeição de solicitações (admin)
-- Gerenciamento de usuários (admin)
+- Gerenciamento de solicitações de férias
+- Gerenciamento de usuários (apenas para administradores)
 
 ## 👥 Tipos de Usuário
 
 ### Funcionário
-- Visualiza suas solicitações
-- Cria novas solicitações
-- Deleta solicitações pendentes
+- Visualizar suas solicitações de férias
+- Criar novas solicitações
+- Cancelar solicitações pendentes
 
 ### Administrador
-- Gerencia todas as solicitações
-- Aprova/rejeita solicitações
-- Gerencia usuários do sistema
+- Todas as funcionalidades do funcionário
+- Gerenciar usuários (criar, editar, excluir)
+- Visualizar todas as solicitações de férias
+- Aprovar ou rejeitar solicitações
