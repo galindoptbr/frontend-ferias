@@ -54,6 +54,44 @@ frontend-ferias/
 │       └── feriasService.ts
 ```
 
+## Configuração do Ambiente
+
+### Variáveis de Ambiente
+
+1. Copie o arquivo `.env.example` para `.env.local`:
+```bash
+cp .env.example .env.local
+```
+
+2. Configure as variáveis de ambiente no arquivo `.env.local`:
+```env
+# URL da API (em desenvolvimento)
+NEXT_PUBLIC_API_URL=http://localhost:3000
+
+# URL da API (em produção)
+# NEXT_PUBLIC_API_URL=https://vacation-node-api.vercel.app
+```
+
+### Portas
+- Backend API: porta 3000
+- Frontend: porta 3001
+
+## Instalação e Execução
+
+```bash
+# Instalar dependências
+npm install
+
+# Executar em desenvolvimento (rodará na porta 3001)
+npm run dev
+
+# Build para produção
+npm run build
+
+# Executar em produção
+npm start
+```
+
 ## System Flows
 
 ### 1. Authentication
@@ -183,33 +221,6 @@ frontend-ferias/
 - NPM or Yarn
 - Internet connection
 - Modern browser
-
-## Installation and Execution
-
-```bash
-# Install dependencies
-npm install
-
-# Run in development (will run on port 3001)
-npm run dev
-
-# Build for production
-npm run build
-
-# Run in production
-npm start
-```
-
-## Environment Variables
-
-```env
-# Backend API URL (running on port 3000)
-NEXT_PUBLIC_API_URL=http://localhost:3000
-```
-
-## Ports Configuration
-- Backend API: runs on port 3000
-- Frontend: runs on port 3001
 
 ## Best Practices
 
