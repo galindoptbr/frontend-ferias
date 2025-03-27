@@ -47,6 +47,6 @@ O projeto estará disponível em `http://localhost:3001`
 
 ### Administrador
 - Todas as funcionalidades do funcionário
-- Gerenciar usuários (criar, editar, excluir)
+- Gerenciar usuários (promover, excluir)
 - Visualizar todas as solicitações de férias
 - Aprovar ou rejeitar solicitações
